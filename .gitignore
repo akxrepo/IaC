@@ -1,0 +1,4 @@
+./*/.t*
+.terraform
+terraform*
+./.terraform*
