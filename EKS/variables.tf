@@ -23,7 +23,7 @@ variable "external-dns_version" {
 }
 
 variable "kube-proxy_version" {
-  default = "v1.33.0-eksbuild.2" 
+  default = "v1.33.0-eksbuild.2"
 }
 
 variable "metrics-server_version" {
@@ -62,16 +62,16 @@ variable "ingress_ports_node_port" {
 
 variable "ingress_ports" {
   default = {
-    "22"  = "SSH"
-    "80"  = "HTTP"
-    "443" = "HTTPS"
-    "8080" = "Jenkins"
-    "8081" = "Nexus"
-    "9000" = "SonarQube"
-    "8200" = "Vault"
-    "3306" = "Mysql"
+    "22"    = "SSH"
+    "80"    = "HTTP"
+    "443"   = "HTTPS"
+    "8080"  = "Jenkins"
+    "8081"  = "Nexus"
+    "9000"  = "SonarQube"
+    "8200"  = "Vault"
+    "3306"  = "Mysql"
     "10250" = "EKS API1"
-    "4443" = "EKS API1"
+    "4443"  = "EKS API1"
   }
 }
 
@@ -82,12 +82,12 @@ variable "ssh_key_name" {
 }
 
 variable "spot_price-az1" {
-  default = 0.0094
+  default     = 0.0094
   description = "us-east-1c"
 }
 
 variable "spot_price-az2" {
-  default = 0.0097
+  default     = 0.0097
   description = "us-east-1a"
 }
 
@@ -116,8 +116,8 @@ variable "eks_node_instance_type" {
 
 variable "vm_name" {
   default = {
-    "Jenkins" = "Jenkins"
-    "Nexus" = "Nexus"
+    "Jenkins"   = "Jenkins"
+    "Nexus"     = "Nexus"
     "SonarQube" = "SonarQube"
   }
 }
@@ -134,9 +134,9 @@ variable "subnet_ids" {
 }
 
 variable "nodegroup_policy" {
-  type        = list(string)
+  type = list(string)
   default = ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-            "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-            "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-            "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+  "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
 }

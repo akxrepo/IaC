@@ -5,19 +5,19 @@ resource "aws_iam_role" "tf-eks-cluster-role" {
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": [
-                    "eks.amazonaws.com"
-                ]
-            },
-            "Action": "sts:AssumeRole"
-        }
-        ]
-    })
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : [
+            "eks.amazonaws.com"
+          ]
+        },
+        "Action" : "sts:AssumeRole"
+      }
+    ]
+  })
 
   tags = {
     Terraform = "true"
@@ -35,22 +35,22 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
 resource "aws_iam_role" "tf-eks-cluster-vpc-cni-role" {
   name = "tf-eks-cluster-vpc-cni-role"
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": [
-                    "pods.eks.amazonaws.com"
-                ]
-            },
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ]
-        }
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : [
+            "pods.eks.amazonaws.com"
+          ]
+        },
+        "Action" : [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+      }
     ]
-})
+  })
 
   tags = {
     Terraform = "true"
@@ -66,22 +66,22 @@ resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
 resource "aws_iam_role" "tf-eks-cluster-ext-dns-role" {
   name = "tf-eks-cluster-ext-dns-role"
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Service": [
-                    "pods.eks.amazonaws.com"
-                ]
-            },
-            "Action": [
-                "sts:AssumeRole",
-                "sts:TagSession"
-            ]
-        }
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : [
+            "pods.eks.amazonaws.com"
+          ]
+        },
+        "Action" : [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+      }
     ]
-})
+  })
 
   tags = {
     Terraform = "true"
@@ -97,21 +97,21 @@ resource "aws_iam_role_policy_attachment" "AmazonRoute53FullAccess" {
 resource "aws_iam_role" "tf-eks-cluster-node-group-role" {
   name = "tf-eks-cluster-node-group-role"
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "sts:AssumeRole"
-            ],
-            "Principal": {
-                "Service": [
-                    "ec2.amazonaws.com"
-                ]
-            }
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "sts:AssumeRole"
+        ],
+        "Principal" : {
+          "Service" : [
+            "ec2.amazonaws.com"
+          ]
         }
+      }
     ]
-})
+  })
 
   tags = {
     Terraform = "true"
@@ -120,6 +120,6 @@ resource "aws_iam_role" "tf-eks-cluster-node-group-role" {
 
 resource "aws_iam_role_policy_attachment" "EKS-NodeGroup" {
   role       = aws_iam_role.tf-eks-cluster-node-group-role.name
-  for_each = toset(var.nodegroup_policy)
+  for_each   = toset(var.nodegroup_policy)
   policy_arn = each.value
 }

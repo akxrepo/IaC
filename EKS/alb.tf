@@ -85,7 +85,7 @@
 # #   chart      = "aws-load-balancer-controller"
 # #   namespace  = "kube-system"
 # #   version    = var.lb_controller_chart_version
-  
+
 # #   values = [
 # #     yamlencode({
 # #       clusterName = aws_eks_cluster.eksdemo.name

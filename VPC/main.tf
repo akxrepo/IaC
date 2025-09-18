@@ -10,6 +10,7 @@ resource "aws_subnet" "subnets" {
   for_each          = var.application2
   cidr_block        = each.value.cidr_block
   availability_zone = each.value.az
+  
   tags = {
     Name = "${local.project}-SB-${each.key}"
     Type = "${each.value.type}"
@@ -34,7 +35,7 @@ data "aws_subnets" "alb_subnets" {
 
   filter {
     name   = "vpc-id"
-    values = [aws_vpc.optus-vpc.id] # Replace with your VPC resource or ID
+    values = [aws_vpc.optus-vpc.id]  # Replace with your VPC resource or ID
   }
 }
 
