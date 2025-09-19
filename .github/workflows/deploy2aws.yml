@@ -1,0 +1,78 @@
+name: Deploy ECS and Modules to AWS with Terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Apply to branch"
+        required: true
+        default: "main"
+      tf_command:
+        description: "Full Terraform command to run"
+        required: true
+        default: "plan"
+
+        type: choice
+        options:
+          - plan
+          - apply -auto-approve
+          - destroy -auto-approve
+      # tf_vars:
+      #   description: "Additional -var-file to include (optional)"
+      #   required: false
+      #   default: "test.tfvars"
+      #   type: string
+
+
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AK_AWS_TERRAFORM_ROLE_ARN }}
+          aws-region: us-east-1
+          audience: sts.amazonaws.com
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.2
+
+      - name: Deploy
+        run: aws s3 ls
+
+      # # Initialize Terraform inside the repo path
+      # - name: Terraform Init
+      #   run: terraform init -backend-config=norwood-backend-modules.tfbackend
+      #   #run: terraform init -backend-config=/tmp/secret_backend.tfbackend
+      #   working-directory: optus/optus-modules/environment/norwood-lab
+
+      # # Run the command typed by user, injecting the sensitive tfvars
+      # - name: Run Terraform Command
+      #   run: |
+      #       if [[ "${{ github.event.inputs.tf_command }}" == "destroy -auto-approve" ]]; then
+      #           echo "Destroy command detected — running ecs-services-cleanup.sh first"
+      #           chmod +x ../../../optus-scripts/ecs-services-cleanup.sh
+      #           for i in {1..2}; do
+      #               ../../../optus-scripts/ecs-services-cleanup.sh mozart-norwood-lab-cluster Optus
+      #           done
+      #           # ../../../optus-scripts/delete-secrets.sh "/norwood-lab"
+      #           # ../../../optus-scripts/delete-ssm-parameters.sh "/norwood-lab"
+      #           terraform destroy -var-file="${{ github.event.inputs.tf_vars }}" -auto-approve
+      #       else
+      #           terraform ${{ github.event.inputs.tf_command }} -var-file="${{ github.event.inputs.tf_vars }}"
+      #       fi
+      #   working-directory: optus/optus-modules/environment/norwood-lab
+      #   shell: bash
+
