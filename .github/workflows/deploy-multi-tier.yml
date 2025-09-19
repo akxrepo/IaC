@@ -1,4 +1,4 @@
-name: Test
+name: Deploy Multi-Tier 
 
 on:
   workflow_dispatch:
