@@ -49,14 +49,10 @@ jobs:
         with:
           terraform_version: 1.11.2
 
-      - name: Deploy
-        run: aws s3 ls
-
-      # # Initialize Terraform inside the repo path
-      # - name: Terraform Init
-      #   run: terraform init -backend-config=norwood-backend-modules.tfbackend
-      #   #run: terraform init -backend-config=/tmp/secret_backend.tfbackend
-      #   working-directory: optus/optus-modules/environment/norwood-lab
+      # Initialize Terraform inside the repo path
+      - name: Terraform Init
+        run: terraform init 
+        working-directory: multi-tier
 
       # # Run the command typed by user, injecting the sensitive tfvars
       # - name: Run Terraform Command
@@ -73,6 +69,6 @@ jobs:
       #       else
       #           terraform ${{ github.event.inputs.tf_command }} -var-file="${{ github.event.inputs.tf_vars }}"
       #       fi
-      #   working-directory: optus/optus-modules/environment/norwood-lab
+      #   working-directory: multi-tier
       #   shell: bash
 
