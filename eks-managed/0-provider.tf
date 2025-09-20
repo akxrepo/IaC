@@ -9,7 +9,7 @@ terraform {
     bucket       = "svkv-terraform-state-bucket"
     key          = "eks-managed/terraform.tfstate"
     region       = "us-east-1"
-    profile      = "sv-lab-admin"
+    #profile      = "sv-lab-admin"
     use_lockfile = true
     encrypt      = true
   }
@@ -17,6 +17,6 @@ terraform {
 
 provider "aws" {
   region  = "us-east-1"
-  profile = "sv-lab-admin"
+  #profile = "sv-lab-admin"
 }
 
