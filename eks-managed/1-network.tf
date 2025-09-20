@@ -13,6 +13,8 @@ resource "aws_subnet" "test-subnet-pub-1" {
   tags = {
     Name = "EKS-Auto-Public-Subnet-1"
     Type = "Public"
+    "kubernetes.io/role/elb" = "1"  # Required for public load balancers
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"  # EKS discovery
   }
 }
 
@@ -24,6 +26,8 @@ resource "aws_subnet" "test-subnet-pub-2" {
     tags = {
         Name = "EKS-Auto-Public-Subnet-2"
         Type = "Public"
+        "kubernetes.io/role/elb" = "1"  # Required for public load balancers
+        "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"  # EKS discovery
     }
 }
 
@@ -57,7 +61,6 @@ resource "aws_internet_gateway" "test-igw" {
 }
 
 resource "aws_eip" "nat-eip" {
-  vpc = true
     tags = {
         Name = "EKS-Auto-NAT-EIP"
     }

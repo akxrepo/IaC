@@ -4,7 +4,7 @@ eks_version = "1.33"
 eks_node_instance_type = "t3.medium"
 #EKS Add-on version
 coredns_version= "v1.12.1-eksbuild.2"
-ebs_csi_driver_version= "v1.12.1-eksbuild.2"
+#ebs_csi_driver_version= "v1.12.1-eksbuild.2"
 pod-identity-agent_version= "v1.3.7-eksbuild.2"
 external-dns_version= "v0.18.0-eksbuild.1"
 kube-proxy_version= "v1.33.0-eksbuild.2" 

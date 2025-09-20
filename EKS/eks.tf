@@ -2,13 +2,16 @@ resource "aws_eks_cluster" "eksdemo" {
   name     = var.eks_cluster_name
   role_arn = aws_iam_role.tf-eks-cluster-role.arn
   version  = var.eks_version
-  #   upgrade_policy {
-  #     support_type = "STANDARD"
-  #   }
-  access_config {
-    authentication_mode = "API"
-  }
 
+  upgrade_policy {
+    support_type = "STANDARD"
+  } 
+
+   # Cluster authentication mode
+  access_config {
+    authentication_mode = "API_AND_CONFIG_MAP"  # matches "EKS API and ConfigMap"
+    bootstrap_cluster_creator_admin_permissions = true
+  }
 
   vpc_config {
     # vpc_id = aws_vpc.EKS-TF-VPC-1.id
@@ -33,7 +36,6 @@ resource "aws_eks_addon" "eks-coredns" {
   cluster_name                = aws_eks_cluster.eksdemo.name
   addon_name                  = "coredns"
   addon_version               = var.coredns_version
-  resolve_conflicts_on_update = "PRESERVE"
   depends_on                  = [aws_eks_node_group.tf-eks-nodegroup-1]
 }
 
@@ -49,7 +51,6 @@ resource "aws_eks_addon" "eks-pod-identity-agent" {
   cluster_name                = aws_eks_cluster.eksdemo.name
   addon_name                  = "eks-pod-identity-agent"
   addon_version               = var.pod-identity-agent_version
-  resolve_conflicts_on_update = "PRESERVE"
   depends_on                  = [aws_eks_node_group.tf-eks-nodegroup-1]
 }
 
@@ -57,7 +58,6 @@ resource "aws_eks_addon" "eks_external-dns" {
   cluster_name                = aws_eks_cluster.eksdemo.name
   addon_name                  = "external-dns"
   addon_version               = var.external-dns_version
-  resolve_conflicts_on_update = "PRESERVE"
   depends_on                  = [aws_eks_node_group.tf-eks-nodegroup-1]
   # service_account_role_arn = aws_iam_role.tf-eks-cluster-ext-dns-role.arn
 }
@@ -66,7 +66,6 @@ resource "aws_eks_addon" "eks_kube-proxy" {
   cluster_name                = aws_eks_cluster.eksdemo.name
   addon_name                  = "kube-proxy"
   addon_version               = var.kube-proxy_version
-  resolve_conflicts_on_update = "PRESERVE"
 }
 
 # resource "aws_eks_addon" "eks_metrics-server" {
@@ -81,7 +80,6 @@ resource "aws_eks_addon" "eks_vpc-cni" {
   cluster_name                = aws_eks_cluster.eksdemo.name
   addon_name                  = "vpc-cni"
   addon_version               = var.vpc-cni_version
-  resolve_conflicts_on_update = "PRESERVE"
   # service_account_role_arn = aws_iam_role.tf-eks-cluster-vpc-cni-role.arn
 }
 
