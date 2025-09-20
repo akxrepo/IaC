@@ -7,7 +7,7 @@ terraform {
   }
   backend "s3" {
     bucket       = "svkv-terraform-state-bucket"
-    key          = "eks-managed/terraform.tfstate"
+    key          = "eks-auto/terraform.tfstate"
     region       = "us-east-1"
     profile      = "sv-lab-admin"
     use_lockfile = true
