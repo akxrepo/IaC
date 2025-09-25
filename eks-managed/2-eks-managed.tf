@@ -190,10 +190,10 @@ resource "aws_eks_addon" "essential_addons" {
       addon_name    = "eks-pod-identity-agent"
       addon_version = var.pod-identity-agent_version
     }
-    # ebs_csi_driver = {
-    #   addon_name    = "aws-ebs-csi-driver"
-    #   addon_version = var.ebs_csi_driver_version
-    # }
+    ebs_csi_driver = {
+      addon_name    = "aws-ebs-csi-driver"
+      addon_version = var.ebs_csi_driver_version
+    }
     # aws_load_balancer_controller = {
     #   addon_name    = "aws-load-balancer-controller"
     #   addon_version = "v2.8.2-eksbuild.1"
