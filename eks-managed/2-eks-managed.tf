@@ -280,6 +280,18 @@ resource "aws_security_group" "eks_node_sg" {
   }
 }
 
+# Create Additional Access Entry to EKS Cluster
+# resource "aws_eks_access_entry" "eks_cluster_access_entry" {
+#   cluster_name = aws_eks_cluster.eks_cluster.name
+#   entry_type   = "ADMIN"
+#   principal_arn = var.admin_arn  # Replace with your IAM user or role ARN
+
+#   depends_on = [
+#     aws_eks_cluster.eks_cluster
+#   ]
+  
+# }
+
 
 ####################
 # Data Sources
