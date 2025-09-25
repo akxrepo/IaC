@@ -8,10 +8,10 @@ pod-identity-agent_version= "v1.3.8-eksbuild.2"
 kube-proxy_version= "v1.33.0-eksbuild.2" 
 metrics-server_version= "v0.8.0-eksbuild.2"
 vpc-cni_version= "v1.19.5-eksbuild.1"
-#ebs_csi_driver_version = "v1.48.0-eksbuild.2"
-#external-dns_version= "v0.18.0-eksbuild.1"
-#efs-csi-driver_version = "v2.1.11-eksbuild.1"
-#kube_state_metrics_version = "v2.17.0-eksbuild.1"
+ebs_csi_driver_version = "v1.48.0-eksbuild.2"
+external-dns_version= "v0.18.0-eksbuild.1"
+efs-csi-driver_version = "v2.1.11-eksbuild.1"
+kube_state_metrics_version = "v2.17.0-eksbuild.1"
 
 #####
 # aws-ebs-csi-driver = v1.48.0-eksbuild.2

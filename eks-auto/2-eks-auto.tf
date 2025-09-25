@@ -102,6 +102,10 @@ resource "aws_eks_cluster" "eks_auto_cluster" {
   version  = var.eks_version
   role_arn = aws_iam_role.cluster_iam_role.arn
 
+  upgrade_policy {
+    support_type = "STANDARD"
+  }
+
   vpc_config {
     subnet_ids = data.aws_subnets.pvt_subnets.ids
   }
