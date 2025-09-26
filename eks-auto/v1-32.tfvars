@@ -1,3 +1,4 @@
+environment = "auto" #"mgd"
 eks_cluster_name = "eks-mgd-cluster-1-32" #"eks-mgd-cluster-1-32"
 eks_version = "1.32"
 #eks_node_instance_type = "t3.medium"

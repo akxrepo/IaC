@@ -22,7 +22,7 @@ resource "aws_iam_role" "cluster_iam_role" {
   })
 
   tags = {
-    Name = "EKS-Auto-Cluster-Role"
+    Name = "EKS-${var.environment}-Cluster-Role"
   }
 }
 
@@ -59,7 +59,7 @@ resource "aws_iam_role" "node_group_role" {
   })
 
   tags = {
-    Name = "EKS-Auto-Node-Role"
+    Name = "EKS-${var.environment}-Node-Role"
   }
 }
 
@@ -138,7 +138,7 @@ resource "aws_eks_cluster" "eks_auto_cluster" {
   tags = {
     Name        = var.eks_cluster_name
     Environment = "development"
-    Type        = "EKS-Auto"
+    Type        = "EKS-${var.environment}"
   }
 
   depends_on = [

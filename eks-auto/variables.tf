@@ -1,3 +1,4 @@
+variable "environment" {}
 variable "eks_cluster_name" {}
 variable "eks_version" {}
 #variable "eks_node_instance_type" {}
