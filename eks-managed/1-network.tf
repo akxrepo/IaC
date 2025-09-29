@@ -1,7 +1,7 @@
 resource "aws_vpc" "test-vpc" {
   cidr_block = "10.1.0.0/16"
   tags = {
-    Name = "EKS-Auto-VPC"
+    Name = "EKS-${var.environment}-VPC"
   }
 }
 
@@ -11,7 +11,7 @@ resource "aws_subnet" "test-subnet-pub-1" {
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
   tags = {
-    Name = "EKS-Auto-Public-Subnet-1"
+    Name = "EKS-${var.environment}-Public-Subnet-1"
     Type = "Public"
     "kubernetes.io/role/elb" = "1"  # Required for public load balancers
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"  # EKS discovery
@@ -24,7 +24,7 @@ resource "aws_subnet" "test-subnet-pub-2" {
   availability_zone       = "us-east-1c"
   map_public_ip_on_launch = true
     tags = {
-        Name = "EKS-Auto-Public-Subnet-2"
+        Name = "EKS-${var.environment}-Public-Subnet-2"
         Type = "Public"
         "kubernetes.io/role/elb" = "1"  # Required for public load balancers
         "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"  # EKS discovery
@@ -37,7 +37,7 @@ resource "aws_subnet" "test-subnet-pvt-1" {
   availability_zone = "us-east-1b"
   map_public_ip_on_launch = false
     tags = {
-        Name = "EKS-Auto-Private-Subnet-1"
+        Name = "EKS-${var.environment}-Private-Subnet-1"
         Type = "Private"
     }
 }
@@ -48,7 +48,7 @@ resource "aws_subnet" "test-subnet-pvt-2" {
   availability_zone = "us-east-1c"
   map_public_ip_on_launch = false
     tags = {
-        Name = "EKS-Auto-Private-Subnet-2"
+        Name = "EKS-${var.environment}-Private-Subnet-2"
         Type = "Private"
     }
 }
@@ -56,13 +56,13 @@ resource "aws_subnet" "test-subnet-pvt-2" {
 resource "aws_internet_gateway" "test-igw" {
   vpc_id = aws_vpc.test-vpc.id
     tags = {
-        Name = "EKS-Auto-IGW"
+        Name = "EKS-${var.environment}-IGW"
     }
 }
 
 resource "aws_eip" "nat-eip" {
     tags = {
-        Name = "EKS-Auto-NAT-EIP"
+        Name = "EKS-${var.environment}-NAT-EIP"
     }
 }
 
@@ -70,7 +70,7 @@ resource "aws_nat_gateway" "test-natgw" {
   allocation_id = aws_eip.nat-eip.allocation_id
   subnet_id     = aws_subnet.test-subnet-pub-1.id
     tags = {
-        Name = "EKS-Auto-NAT-GW"
+        Name = "EKS-${var.environment}-NAT-GW"
     }
   depends_on = [aws_internet_gateway.test-igw]
   
@@ -84,7 +84,7 @@ resource "aws_route_table" "test-rt-pub" {
     gateway_id = aws_internet_gateway.test-igw.id
   }
     tags = {
-        Name = "EKS-Auto-Public-RT"
+        Name = "EKS-${var.environment}-Public-RT"
     }
 }
 
@@ -96,7 +96,7 @@ resource "aws_route_table" "test-rt-pvt" {
     nat_gateway_id = aws_nat_gateway.test-natgw.id
     }
     tags = {
-        Name = "EKS-Auto-Private-RT"
+        Name = "EKS-${var.environment}-Private-RT"
     }
 }
 
@@ -140,7 +140,7 @@ resource "aws_security_group" "alb-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
     tags = {
-        Name = "EKS-Auto-alb-SG"
+        Name = "EKS-${var.environment}-alb-SG"
     }
 }
 
@@ -167,6 +167,6 @@ resource "aws_security_group" "alb-to-ec2-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
     tags = {
-        Name = "EKS-Auto-alb-to-ec2-sg"
+        Name = "EKS-${var.environment}-alb-to-ec2-sg"
     }
 }
