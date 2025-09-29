@@ -1,5 +1,5 @@
 environment = "auto" #"mgd"
-eks_cluster_name = "eks-mgd-cluster-1-32" #"eks-mgd-cluster-1-32"
+eks_cluster_name = "eks-auto-cluster-1-32" #"eks-mgd-cluster-1-32"
 eks_version = "1.32"
 #eks_node_instance_type = "t3.medium"
 eks_ami = "AL2_x86_64" # Amazon EKS-Optimized Amazon Linux 2 AMI v1.32.9-2024.06.11
