@@ -1,6 +1,6 @@
 # IAM Roles and Policies for EKS Cluster and Nodes
 resource "aws_iam_role" "cluster_iam_role" {
-    name = "AmazonEKSAutoClusterRole"
+    name = "AmazonEKSMGDClusterRole"
     
     assume_role_policy = jsonencode({
     "Version": "2012-10-17",
@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
 }
 
 resource "aws_iam_role" "node_iam_role" {
-    name = "AmazonEKSAutoNodeRole"
+    name = "AmazonEKSMGDNodeRole"
     
     assume_role_policy = jsonencode({
     "Version": "2012-10-17",
@@ -95,7 +95,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 # EKS Node Group
 resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "eks-auto-node-group"
+  node_group_name = "eks-${var.environment}-node-group"
   node_role_arn   = aws_iam_role.node_iam_role.arn
   subnet_ids      = data.aws_subnets.pvt_subnets.ids
 
@@ -124,7 +124,7 @@ resource "aws_eks_node_group" "eks_node_group" {
 
 # Launch Template for EKS Nodes
 resource "aws_launch_template" "eks_node_launch_template" {
-  name_prefix   = "eks-auto-node-"
+  name_prefix   = "eks-${var.environment}-node-"
   #image_id      = "ami-0329ac7d12d171324" # EKS optimized AMI for version 1.32 in us-east-1
   #image_id      = "ami-0767f1fe1d85e096f" # EKS optimized AMI for version 1.33 in us-east-1
 
@@ -158,7 +158,7 @@ resource "aws_launch_template" "eks_node_launch_template" {
     resource_type = "instance"
 
     tags = {
-      Name = "EKS-Auto-Node"
+      Name = "EKS-${var.environment}-Node"
     }
   }
 
@@ -214,7 +214,7 @@ resource "aws_eks_addon" "essential_addons" {
 
 # Security Groups for EKS
 resource "aws_security_group" "eks_cluster_sg" {
-  name_prefix = "eks-cluster-sg-"
+  name_prefix = "eks-${var.environment}-cluster-sg-"
   vpc_id      = aws_vpc.test-vpc.id
 
   dynamic "ingress" {
@@ -236,7 +236,7 @@ resource "aws_security_group" "eks_cluster_sg" {
   }
 
   tags = {
-    Name = "eks-cluster-sg"
+    Name = "eks-${var.environment}-cluster-sg"
   }
 }
 
