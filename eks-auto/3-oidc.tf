@@ -5,14 +5,14 @@ resource "aws_iam_openid_connect_provider" "eks-oidc-provider" {
   
   depends_on = [aws_eks_cluster.eks_auto_cluster]
   tags = {
-    Name = "EKS-Auto-OIDC-Provider"
+    Name = "EKS-${var.environment}-OIDC-Provider"
     EKS-Cluster = var.eks_cluster_name
   }
 }
 
 # IAM Policy 
 resource "aws_iam_policy" "aws_load_balancer_controller_policy" {
-  name        = "AWSLoadBalancerControllerIAMPolicy"
+  name        = "AWSLoadBalancerControllerIAMPolicyAUTO"
   description = "IAM policy for the AWS Load Balancer Controller"
   policy      = file("alb-iam-policy.json")
   
@@ -20,7 +20,7 @@ resource "aws_iam_policy" "aws_load_balancer_controller_policy" {
 
 # IAM Role for AWS Load Balancer Controller
 resource "aws_iam_role" "aws_load_balancer_controller_role" {
-  name = "AmazonEKSLoadBalancerControllerRole"
+  name = "AmazonEKSLoadBalancerControllerRoleAUTO"
   
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
@@ -41,7 +41,7 @@ resource "aws_iam_role" "aws_load_balancer_controller_role" {
   })
   
   tags = {
-    Name = "EKS-Auto-ALB-Controller-Role"
+    Name = "EKS-${var.environment}-ALB-Controller-Role"
     EKS-Cluster = var.eks_cluster_name
   }
 }
