@@ -43,7 +43,7 @@ resource "aws_eks_pod_identity_association" "karpenter_pod_identity" {
     alb = {
       namespace            = "kube-system"
       service_account_name = "aws-load-balancer-controller"
-      role_arn             = aws_iam_role.aws_load_balancer_controller_role.arn
+      role_arn             = aws_iam_role.aws_load_balancer_controller_role_pod_identity.arn
     }
   }
 
@@ -83,6 +83,6 @@ resource "aws_iam_policy" "aws_load_balancer_controller_policy_pod_identity" {
 
 resource "aws_iam_policy_attachment" "alb_controller_attach_policy_pod_identity" {
   name       = "eks-${var.environment}-alb-controller-attach-policy"
-  policy_arn = aws_iam_policy.aws_load_balancer_controller_policy.arn
-  roles      = [aws_iam_role.aws_load_balancer_controller_role.name]
+  policy_arn = aws_iam_policy.aws_load_balancer_controller_policy_pod_identity.arn
+  roles      = [aws_iam_role.aws_load_balancer_controller_role_pod_identity.name]
 }
