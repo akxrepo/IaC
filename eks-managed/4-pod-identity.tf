@@ -30,7 +30,7 @@ resource "aws_iam_role" "karpenter_role" {
 resource "aws_iam_policy" "karpenter_policy" {
   name        = "eks-${var.environment}-karpenter-controller-policy"
   description = "IAM policy for Karpenter"
-  policy      = file("karpenter-iam-policy.json")
+  policy      = file("karpenter-controller-iam-policy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "karpenter_attach_policy" {
