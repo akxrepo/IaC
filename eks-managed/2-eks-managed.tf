@@ -64,6 +64,26 @@ resource "aws_iam_role_policy_attachment" "node_AmazonEKSWorkerNodePolicy" {
 }
 
 
+resource "aws_iam_policy" "karpenter_passrole" {
+  name        = "KarpenterPassNodeRole"
+  description = "Allow Karpenter to pass the EKS node role"
+  policy      = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": "iam:PassRole",
+        "Resource": aws_iam_role.node_iam_role.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "karpenter_passrole_attach" {
+  role       = "eks-mgd-karpenter-role" # The controller role
+  policy_arn = aws_iam_policy.karpenter_passrole.arn
+}
+
 # EKS Cluster
 
 resource "aws_eks_cluster" "eks_cluster" {
