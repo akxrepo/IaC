@@ -39,6 +39,7 @@ resource "aws_subnet" "test-subnet-pvt-1" {
     tags = {
         Name = "EKS-${var.environment}-Private-Subnet-1"
         Type = "Private"
+        "karpenter.sh/discovery" = var.eks_cluster_name
     }
 }
 
@@ -50,6 +51,7 @@ resource "aws_subnet" "test-subnet-pvt-2" {
     tags = {
         Name = "EKS-${var.environment}-Private-Subnet-2"
         Type = "Private"
+        "karpenter.sh/discovery" = var.eks_cluster_name
     }
 }
 
