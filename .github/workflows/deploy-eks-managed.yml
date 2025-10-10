@@ -17,6 +17,7 @@ on:
           - plan
           - apply -auto-approve
           - destroy -auto-approve
+          - refresh
       tf_vars:
         description: "Additional -var-file to include (optional)"
         required: false
