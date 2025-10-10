@@ -1,3 +1,6 @@
+#Pod Identity Associations 
+
+#Karpenter
 resource "aws_iam_role" "karpenter_role" {
   name = "eks-${var.environment}-karpenter-role"
 
