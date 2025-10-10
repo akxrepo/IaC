@@ -36,7 +36,7 @@ resource "aws_iam_role_policy_attachment" "karpenter_attach_policy" {
 resource "aws_eks_pod_identity_association" "karpenter_pod_identity" {
   for_each = {
     karpenter = {
-      namespace            = "karpenter"
+      namespace            = "kube-system"
       service_account_name = "karpenter"
       role_arn             = aws_iam_role.karpenter_role.arn
     }
