@@ -241,7 +241,7 @@ resource "aws_security_group" "eks_cluster_sg" {
 }
 
 resource "aws_security_group" "eks_node_sg" {
-  name_prefix = "eks-node-sg-"
+  name_prefix = "eks-${var.environment}-node-sg-"
   vpc_id      = aws_vpc.test-vpc.id
 
   ingress {
@@ -276,7 +276,8 @@ resource "aws_security_group" "eks_node_sg" {
   }
 
   tags = {
-    Name = "eks-node-sg"
+    Name = "eks-${var.environment}-node-sg"
+    "karpenter.sh/discovery" = var.eks_cluster_name
   }
 }
 
