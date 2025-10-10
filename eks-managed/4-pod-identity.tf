@@ -56,7 +56,7 @@ resource "aws_eks_pod_identity_association" "karpenter_pod_identity" {
 }
 
 # ALB
-resource "aws_iam_role" "aws_load_balancer_controller_role" {
+resource "aws_iam_role" "aws_load_balancer_controller_role_pod_identity" {
   name = "eks-${var.environment}-ALB-Controller-Role"
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
@@ -75,13 +75,13 @@ resource "aws_iam_role" "aws_load_balancer_controller_role" {
   })
 }
 
-resource "aws_iam_policy" "aws_load_balancer_controller_policy" {
+resource "aws_iam_policy" "aws_load_balancer_controller_policy_pod_identity" {
   name        = "eks-${var.environment}-AWSLoadBalancerControllerIAMPolicy"
   description = "IAM policy for the AWS Load Balancer Controller"
   policy      = file("alb-iam-policy.json")
 }
 
-resource "aws_iam_policy_attachment" "alb_controller_attach_policy" {
+resource "aws_iam_policy_attachment" "alb_controller_attach_policy_pod_identity" {
   name       = "eks-${var.environment}-alb-controller-attach-policy"
   policy_arn = aws_iam_policy.aws_load_balancer_controller_policy.arn
   roles      = [aws_iam_role.aws_load_balancer_controller_role.name]
