@@ -128,8 +128,8 @@ resource "aws_eks_node_group" "eks_node_group" {
 
   # instance_types = ["c7i-flex.large"] #
   # capacity_type =  "ON_DEMAND" #"SPOT" #
-   instance_types = ["c7i-flex.large"]  # Use a more common instance type
-   capacity_type  = "ON_DEMAND"
+   instance_types = var.instance_type  # Use a more common instance type
+   capacity_type  = var.capacity_type
    ami_type       = var.eks_ami   # Let AWS choose the AMI
 
 

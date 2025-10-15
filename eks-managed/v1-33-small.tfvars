@@ -1,7 +1,7 @@
 environment = "mgd" #"auto"
 eks_cluster_name = "eks-mgd-cluster-1-33" #"eks-mgd-cluster-1-32"
 eks_version = "1.33"
-instance_type = ["c7i-flex.large"] # m7i-flex.large, t3.small, t3.micro, t3.medium
+instance_type = ["t3.small"] # c7i-flex.large, m7i-flex.large, t3.small, t3.micro, t3.medium
 capacity_type = "ON_DEMAND" #"SPOT"
 #eks_node_instance_type = "t3.medium"
 eks_ami = "AL2023_x86_64_STANDARD" # Amazon EKS-Optimized Amazon Linux 2 AMI v1.32.9-2024.06.11
