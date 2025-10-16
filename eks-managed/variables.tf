@@ -14,3 +14,4 @@ variable "efs-csi-driver_version" {}
 variable "kube_state_metrics_version" {}
 variable "instance_type" {}
 variable "capacity_type" {}
+variable "desired_size" {}
