@@ -4,11 +4,14 @@ helm repo add eks https://aws.github.io/eks-charts
 
 helm repo update eks
 
+# creat service account for pod identity
+kubectl create sa aws-load-balancer-controller -n kube-system
+
 helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-controller \
   -n kube-system \
   --set clusterName=eks-mgd-cluster-1-33 \
   --set region=us-east-1 \
-  --set vpcId=vpc-06ae604e24b514277 \
+  --set vpcId=vpc-0b6c210477afe57b8 \
   --set serviceAccount.create=false \
   --set serviceAccount.name=aws-load-balancer-controller \
   --version 1.13.0

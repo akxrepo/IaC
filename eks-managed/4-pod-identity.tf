@@ -89,3 +89,39 @@ resource "aws_iam_policy_attachment" "alb_controller_attach_policy_pod_identity"
   policy_arn = aws_iam_policy.aws_load_balancer_controller_policy_pod_identity.arn
   roles      = [aws_iam_role.aws_load_balancer_controller_role_pod_identity.name]
 }
+
+# EBS CSI Driver
+resource "aws_iam_role" "ebs_csi_driver_role" {
+  name = "eks-${var.environment}-ebs-csi-driver-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "pods.eks.amazonaws.com"
+        }
+        Action = [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+      }
+    ]
+  })
+
+  tags = {
+    Name = "eks-${var.environment}-ebs-csi-driver-role"
+  }
+}
+
+resource "aws_iam_policy" "ebs_csi_driver_policy" {
+  name        = "eks-${var.environment}-ebs-csi-driver-policy"
+  description = "IAM policy for EBS CSI Driver"
+  policy      = file("ebs-csi-policy.json")
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_csi_driver_attach_policy" {
+  role       = aws_iam_role.ebs_csi_driver_role.name
+  policy_arn = aws_iam_policy.ebs_csi_driver_policy.arn
+}
