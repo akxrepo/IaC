@@ -47,6 +47,11 @@ resource "aws_eks_pod_identity_association" "karpenter_pod_identity" {
       namespace            = "kube-system"
       service_account_name = "aws-load-balancer-controller"
       role_arn             = aws_iam_role.aws_load_balancer_controller_role_pod_identity.arn
+    },
+    ebs_csi = {
+      namespace            = "kube-system"
+      service_account_name = "ebs-csi-controller-sa"
+      role_arn             = aws_iam_role.ebs_csi_driver_role.arn
     }
   }
 
