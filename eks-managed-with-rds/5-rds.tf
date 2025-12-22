@@ -42,6 +42,7 @@ resource "aws_db_instance" "eks-shopping-app" {
   auto_minor_version_upgrade = false
   copy_tags_to_snapshot      = true
   deletion_protection        = false
+  skip_final_snapshot = true
 
   parameter_group_name = "default.mysql8.0"
   option_group_name    = "default:mysql-8-0"
