@@ -1,0 +1,67 @@
+name: Deploy EKS Managed Cluster with RDS
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Apply to branch"
+        required: true
+        default: "main"
+      tf_command:
+        description: "Full Terraform command to run"
+        required: true
+        default: "plan"
+
+        type: choice
+        options:
+          - plan
+          - apply -auto-approve
+          - destroy -auto-approve
+          - refresh
+      tf_vars:
+        description: "Additional -var-file to include (optional)"
+        required: false
+        default: "v1-33.tfvars"
+        type: string
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AK_AWS_TERRAFORM_ROLE_ARN }}
+          aws-region: us-east-1
+          audience: sts.amazonaws.com
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.11.2
+
+      # Initialize Terraform inside the repo path
+      - name: Terraform Init
+        run: terraform init 
+        working-directory: eks-managed-with-rds
+
+      # Run the command typed by user, injecting the sensitive tfvars
+      - name: Run Terraform Command 
+        run: |
+            if [[ "${{ github.event.inputs.tf_command }}" == "destroy -auto-approve" ]]; then
+                terraform destroy -auto-approve -var-file="${{ github.event.inputs.tf_vars }}"
+            else
+                #terraform ${{ github.event.inputs.tf_command }} 
+                terraform ${{ github.event.inputs.tf_command }} -var-file="${{ github.event.inputs.tf_vars }}"
+            fi
+        working-directory: eks-managed-with-rds
+        shell: bash
+
