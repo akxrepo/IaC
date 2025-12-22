@@ -1,0 +1,17 @@
+variable "environment" {}
+variable "eks_cluster_name" {}
+variable "eks_version" {}
+#variable "eks_node_instance_type" {}
+variable "eks_ami"  {}
+variable "coredns_version" {}
+variable "pod-identity-agent_version" {}
+variable "external-dns_version" {}
+variable "kube-proxy_version" {}
+variable "metrics-server_version" {}
+variable "vpc-cni_version" {}
+variable "ebs_csi_driver_version" {}
+variable "efs-csi-driver_version" {}
+variable "kube_state_metrics_version" {}
+variable "instance_type" {}
+variable "capacity_type" {}
+variable "desired_size" {}
