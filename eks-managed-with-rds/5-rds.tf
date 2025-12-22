@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_db_instance" "eks-shopping-app" {
   identifier = "shopping-db-eks"
 
@@ -11,8 +13,8 @@ resource "aws_db_instance" "eks-shopping-app" {
 
   db_name  = "shopping_db_eks"
   username = "root"
-  # password intentionally omitted (use Secrets Manager / ignore_changes)
-
+  password = "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:shopping-app-5RCqDv"
+  
   port = 3306
 
   multi_az = false
