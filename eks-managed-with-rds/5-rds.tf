@@ -79,3 +79,13 @@ resource "aws_security_group" "rds_mysql_vpc" {
     Name = "rds-mysql-vpc-eks"
   }
 }
+
+resource "aws_db_subnet_group" "rds-subnet-group" {
+  name        = "rds-subnet-group-eks"
+  description = "RDS subnet group for EKS"
+  subnet_ids  = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
+
+  tags = {
+    Name = "rds-subnet-group-eks"
+  }
+}
