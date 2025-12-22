@@ -1,5 +1,13 @@
 data "aws_caller_identity" "current" {}
 
+data "aws_secretsmanager_secret" "db" {
+  name = "shopping-app"
+}
+
+data "aws_secretsmanager_secret_version" "db" {
+  secret_id = data.aws_secretsmanager_secret.db.id
+}
+
 resource "aws_db_instance" "eks-shopping-app" {
   identifier = "shopping-db-eks"
 
@@ -13,7 +21,9 @@ resource "aws_db_instance" "eks-shopping-app" {
 
   db_name  = "shopping_db_eks"
   username = "root"
-  password = "arn:aws:secretsmanager:us-east-1:${data.aws_caller_identity.current.account_id}:secret:shopping-app-5RCqDv"
+  password = jsondecode(
+    data.aws_secretsmanager_secret_version.db.secret_string
+  )["password"]
   
   port = 3306
 
